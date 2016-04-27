@@ -9,19 +9,20 @@ function getwisdoms {
     echo "-----------------------------------------"
     echo "New checkpoint"
     echo $(date)
-    echo $(echo "$latest" | grep -o "\d\.\d*" | tail -n 1)
+    echo "$latest"
     echo "-----------------------------------------"
-    th sample.lua $latest -gpuid 2 -temperature 1.1 -seed `echo $RANDOM % 123 + 1 | bc` | sed '$ d' | sed '1,/-------/d' | sort | uniq $write
+    th sample.lua -checkpoint $latest -gpu 2 -temperature 1.1 | sort | uniq $write
 }
-cd char-rnn
-latest=`grep -o "cv/.*" /var/log/trainwisdoms.log | tail -n 1`
-
+cd torch-rnn
+latest=( cv/*t7 )
+latest=${latest[-1]}
 getwisdoms
 while [ 1 == 1 ]; do
     if [ "$1" == "stream" ]; then
        getwisdoms 
    else
-        new=`grep -o "cv/.*" /var/log/trainwisdoms.log | tail -n 1`
+	new=( cv/*t7 )
+	new=${new[-1]}
         if [ $latest != $new ]; then
             latest=$new
             getwisdoms
