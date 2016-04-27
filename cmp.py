@@ -10,10 +10,10 @@ def linefilter(l):
     line = removepunctuation(l)
     return(line)
 
-with open('char-rnn/data/tea-wisdoms/input.txt', 'r') as c:
+with open('data/tea-wisdoms/input.txt', 'r') as c:
     wisdoms = list(map(linefilter, c))
 
-with open('allwords', 'r') as c:
+with open('../allwords', 'r') as c:
     words = list(map(linefilter, c))
 
 def allwords(l):
