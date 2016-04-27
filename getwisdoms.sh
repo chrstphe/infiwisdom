@@ -6,7 +6,7 @@ function getwisdoms {
     echo $(date)
     echo $(echo "$latest" | grep -o "\d\.\d*" | tail -n 1)
     echo "-----------------------------------------"
-    th sample.lua $latest -opencl 1 -temperature 1.1 -seed `echo $RANDOM % 123 + 1 | bc` | sed '$ d' | sed '1,/-------/d' | sort | uniq | ./cmp.py | tee -a ../teawisdom-new.txt
+    th sample.lua $latest -gpuid 2 -temperature 1.1 -seed `echo $RANDOM % 123 + 1 | bc` | sed '$ d' | sed '1,/-------/d' | sort | uniq | ./cmp.py | tee -a ../teawisdom-new.txt
 }
 cd char-rnn
 latest=`grep -o "cv/.*" /var/log/trainwisdoms.log | tail -n 1`
